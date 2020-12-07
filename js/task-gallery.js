@@ -29,16 +29,23 @@ images.map((el, index) => {
 
 galleryContainer.addEventListener('click', (e) => {
     e.preventDefault();
+     if (e.target.nodeName !== 'IMG') {
+        return
+    };
+    
     let modalLink = e.target.dataset.source;
     modal.classList.add('is-open');
     modalImage.src = modalLink;
     modalImage.dataset.index = e.target.dataset.index;
+    window.addEventListener('keydown', listenEvent); 
 });
 
 btn.addEventListener('click', closeModal);
 closeOnClick.addEventListener('click', closeModal);
 
-window.addEventListener('keydown', (e) => {
+
+
+function listenEvent(e) {
     if (e.key === 'Escape') {
         closeModal()
     }
@@ -48,11 +55,13 @@ window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
         ArrowRight()
     }
-});
+}
+
 
 function closeModal() {
     modal.classList.remove('is-open');
     modalImage.src = '';
+   window.removeEventListener('keydown', listenEvent);
 }
 
 function changeSrcImage(step, index) {
